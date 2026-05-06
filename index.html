@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<title>Love</title>
+
+<style>
+body {
+    margin: 0;
+    overflow: hidden;
+    font-family: Arial;
+background: radial-gradient(circle, #ff1a1a, #4d0000, #000);
+    color: red;
+}
+
+/* الدبدوب */
+.teddy {
+    position: absolute;
+    top: 35%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 100px;
+    animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+    0%,100% { transform: translate(-50%, -50%) translateY(0); }
+    50% { transform: translate(-50%, -50%) translateY(-20px); }
+}
+
+/* النص */
+.text {
+    position: absolute;
+    top: 60%;
+    width: 100%;
+    text-align: center;
+}
+
+h1 {
+    font-size: 50px;
+    text-shadow: 0 0 20px pink, 0 0 40px red;
+}
+
+/* الزر */
+button {
+    margin-top: 20px;
+    padding: 15px 40px;
+    border: none;
+    border-radius: 50px;
+    background: linear-gradient(45deg, #ff0080, #ff4d6d);
+    color: red;
+    font-size: 20px;
+    cursor: pointer;
+    box-shadow: 0 0 20px pink;
+    transition: 0.3s;
+}
+
+button:hover {
+    transform: scale(1.1);
+}
+
+/* القلوب العامة */
+.heart {
+    position: absolute;
+    color: red;
+    animation: float 5s linear infinite;
+}
+
+@keyframes float {
+    0% {
+        transform: translateY(100vh) scale(0.5);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(-10vh) scale(1.5);
+        opacity: 0;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="teddy">🧸</div>
+
+<div class="text">
+    <h1>I LOVE YOU ❤️</h1>
+    <button id="loveBtn" onclick="explodeHearts()">ضغطي هنا</button>
+</div>
+
+<script>
+// انتقال بعد الانفجار
+function explodeHearts() {
+    const btn = document.getElementById("loveBtn");
+    const rect = btn.getBoundingClientRect();
+
+    for (let i = 0; i < 30; i++) {
+        const heart = document.createElement("div");
+        heart.innerHTML = "❤️";
+        heart.style.position = "fixed";
+        heart.style.left = rect.left + rect.width / 2 + "px";
+        heart.style.top = rect.top + rect.height / 2 + "px";
+        heart.style.fontSize = (15 + Math.random() * 25) + "px";
+
+        document.body.appendChild(heart);
+
+        const angle = Math.random() * 2 * Math.PI;
+        const distance = 100 + Math.random() * 200;
+
+        const x = Math.cos(angle) * distance;
+        const y = Math.sin(angle) * distance;
+
+        heart.animate([
+            { transform: "translate(0,0)", opacity: 1 },
+            { transform: `translate(${x}px, ${y}px)`, opacity: 0 }
+        ], {
+            duration: 1000,
+            easing: "ease-out"
+        });
+
+        setTimeout(() => heart.remove(), 1000);
+    }
+
+    setTimeout(() => {
+        window.location.href = "page2.html";
+    }, 1000);
+}
+
+/* قلوب الخلفية */
+function createHeart() {
+    const heart = document.createElement("div");
+    heart.classList.add("heart");
+    heart.innerHTML = "❤️";
+
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.fontSize = (10 + Math.random() * 30) + "px";
+    heart.style.animationDuration = (3 + Math.random() * 5) + "s";
+
+    document.body.appendChild(heart);
+
+    setTimeout(() => heart.remove(), 5000);
+}
+setInterval(createHeart, 250);
+
+/* الدبدوب يرمي قلوب */
+function throwHeartFromTeddy() {
+    const teddy = document.querySelector(".teddy");
+    const rect = teddy.getBoundingClientRect();
+
+    const heart = document.createElement("div");
+    heart.innerHTML = "💖";
+    heart.style.position = "fixed";
+    heart.style.left = rect.left + rect.width / 1.5 + "px";
+    heart.style.top = rect.top + rect.height / 2 + "px";
+    heart.style.fontSize = (15 + Math.random() * 20) + "px";
+
+    document.body.appendChild(heart);
+
+    const x = 100 + Math.random() * 200;
+    const y = -100 - Math.random() * 200;
+
+    heart.animate([
+        { transform: "translate(0,0)", opacity: 1 },
+        { transform: `translate(${x}px, ${y}px)`, opacity: 0 }
+    ], {
+        duration: 1500,
+        easing: "ease-out"
+    });
+
+    setTimeout(() => heart.remove(), 1500);
+}
+setInterval(throwHeartFromTeddy, 400);
+</script>
+
+</body>
+</html>
